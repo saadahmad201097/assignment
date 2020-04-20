@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import TableComponent from './components/TableComponent.js'
-
+import Fab from '@material-ui/core/Fab';
 
 class App extends React.Component {
 
@@ -10,6 +10,8 @@ class App extends React.Component {
 
     this.state = {
       toDoList: [],
+      allToDos: [],
+      count: 10
     }
 
   }
@@ -20,9 +22,13 @@ class App extends React.Component {
       .then(response => response.json())
       .then(json => { return json })
 
-    this.setState({ toDoList: listForToDo.slice(0, 10) })
+    this.setState({ toDoList: listForToDo.slice(0, 10), allToDos: listForToDo })
   }
 
+  addNew() {
+
+    this.setState({ toDoList: [...this.state.toDoList, this.state.allToDos.slice(this.state.count, this.state.count + 1)[0]], count: this.state.count + 1 })
+  }
 
   render() {
 
@@ -31,6 +37,12 @@ class App extends React.Component {
       <div className='MainDiv'>
 
         <h1 className='H1'>Demo App</h1>
+
+        <div onClick={() => this.addNew()} style={{ paddingRight: '5%', marginBottom: '1%', float: 'right' }}>
+          <Fab color="secondary" aria-label="add">
+            Add
+        </Fab>
+        </div>
 
         {this.state.toDoList.length !== 0 ?
 
